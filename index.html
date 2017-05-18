@@ -32,12 +32,17 @@
         socket.emit('set username', name);
         $('form').submit(function(e){
           e.preventDefault();
+          // append the * message directly as soon as he presses enter
+          $('#messages').append($('<li>').text(name + ':' + $('#m').val()));
           socket.emit('chat message', { content: $('#m').val(), name: name});
           $('#m').val('');
           return false;
         });
         socket.on('chat message', function(msg){
-          $('#messages').append($('<li>').text(msg.name+':'+msg.content));
+          //FIXME how about two guys have the same name?
+          if (msg.name !== name) {
+            $('#messages').append($('<li>').text(msg.name+':'+msg.content));
+          }
         });
         // broadcast users's connection or disconnection
         socket.on('connect message', function(username){
