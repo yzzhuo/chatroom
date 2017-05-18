@@ -16,16 +16,15 @@ app.get('/login', function(req, res){
 io.on('connection', function(socket){
   socket.on('set username', function(name){
     users[socket.id] = name;
-    console.log(users);
-    socket.broadcast.to(socket.id).emit('init onliner', users);
-    io.emit('connect message',name);
+    io.to(socket.id).emit('init onliner', users);
+    socket.broadcast.emit('connect message',{id: socket.id, name: users[socket.id]});
   });
   socket.on('chat message', function(msg){
     socket.broadcast.emit('chat message', msg);
   });
   socket.on('disconnect',function(){
-    delete users[socket.id];
-    io.emit('disconnect message',users[socket.id]);
+    socket.broadcast.emit('disconnect message',{ id: socket.id, name: users[socket.id]});
+    delete users[socket.id];    
   });
 });
 

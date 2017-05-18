@@ -5,12 +5,17 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 60%; }
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages { list-style-type: none; margin: 0; padding: 0; width: 60%; float:left}
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      .online_status{
+        width:40%;
+        background-color: grey;
+        float: right;
+      }
     </style>
   </head>
   <body>
@@ -18,15 +23,18 @@
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
+    <div class="online_status">
+      <h3>online people</h3>
+      <ul id="onliner">
+      </ul>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="jquery.js"></script>
     <script>
       $(function(){
         var name = localStorage.getItem('name');
-          console.log(name);        
         if(!name){
           window.location.href='http://localhost:8000/login';
-          console.log(name);
         }
         var socket = io();
         socket.emit('set username', name);
@@ -38,18 +46,22 @@
           $('#m').val('');
           return false;
         });
+        socket.on('init onliner', function(users){
+            Object.keys(users).forEach(function(key){
+              $('#onliner').append($('<li>').text(users[key]).attr('id', key));
+            });
+        });
         socket.on('chat message', function(msg){
-          //FIXME how about two guys have the same name?
-          if (msg.name !== name) {
             $('#messages').append($('<li>').text(msg.name+':'+msg.content));
-          }
         });
         // broadcast users's connection or disconnection
-        socket.on('connect message', function(username){
-          $('#messages').append($('<li>').text(username + ' connect!'));
+        socket.on('connect message', function(user){
+          $('#messages').append($('<li>').text(user.name + ' connect!'));
+          $('#onliner').append($('<li>').text(user.name).attr('id', user.id));          
         });
         socket.on('disconnect message', function(user){
-          $('#messages').append($('<li>').text(user + ' disconnect!'));
+          $('#'+user.id).remove();
+          $('#messages').append($('<li>').text(user.name + ' disconnect!'));
         })
       });
     </script>
