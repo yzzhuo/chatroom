@@ -1,0 +1,26 @@
+.chatroom_wrapper {
+  width: 720px;
+  height: 524px;
+  border: 1px solid #eee;
+}
+
+.chatroom_title {
+  height: 36px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.chatroom_body {
+  height: 443px;
+}
+
+.chatroom_bottom {
+  height: 181px;
+  border: 1px solid #eee;
+}
+.toolbar {
+  width: 100%;
+  height: 36px;
+  border-top: 1px solid #eee;
+}

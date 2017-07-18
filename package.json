@@ -1,15 +1,41 @@
 {
-  "name": "socket",
+  "name": "webpack-demo",
   "version": "1.0.0",
-  "description": "a demo to learn socket.io to build a chatroom",
+  "description": "",
   "main": "index.js",
+  "dependencies": {
+    "@types/material-ui": "next",
+    "css-loader": "^0.28.4",
+    "lodash": "^4.17.4",
+    "material-ui": "0.17.16",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "style-loader": "^0.18.2",
+    "webpack-env": "^0.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "@types/react": "^15.0.29",
+    "@types/react-dom": "^15.5.0",
+    "@types/react-hot-loader": "^3.0.1",
+    "@types/webpack-env": "^1.13.0",
+    "awesome-typescript-loader": "^3.1.3",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^2.28.0",
+    "source-map-loader": "^0.2.1",
+    "typescript": "^2.3.4",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/webpack-dev-server",
+    "dev": "cross-env NODE_ENV=development ./node_modules/.bin/webpack --config webpack.config.js"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.15.2",
-    "socket.io": "^2.0.1"
-  }
+  "license": "ISC"
 }
